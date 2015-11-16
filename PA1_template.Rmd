@@ -24,7 +24,7 @@ activity$day_number<-difftime(activity$date_form,as.Date("2012-10-01",format="%Y
 
 ```{r point_1_and_2,echo=TRUE}
 #Calculating point 1 and 2
-total_step_per_day<-tapply(activity$steps,activity$date,sum,na.rm=TRUE)
+total_step_per_day<-tapply(activity$steps,activity$date,sum)
 hist(total_step_per_day,xlab="Total Number of Steps",main="Histogram of Total number of Steps")
 ```
 
@@ -84,7 +84,7 @@ activity_new$date<-as.factor(activity_new$date)
 The above code accomplishes point 2 and 3, and makes a new dataframe activity_new that replaces all the NA values for a particular day with the average number of steps for that day. This dataframe has no missing values
 
 
-```{r,echo=TRUE}
+```{r New_histogram_replace_missing_values,echo=TRUE}
 #Histogram for point 4.
 new_total_step_per_day<-tapply(activity_new$steps,activity_new$date,sum,na.rm=TRUE)
 hist(new_total_step_per_day,xlab="Total Number of Steps",main="Histogram of Total number of Steps")
@@ -103,8 +103,10 @@ The mean of total number of steps per day is `r round(new_mean_steps_per_days,0)
 
 The median of total number of steps per day is `r round(new_median_steps_per_days,0)`.
 
-The mean and median seem unchanged.
+We see that both, the mean and median have decreased now.This is because the NA values were replaced by the average steps for that day (in my convention). On noticing, we see that the NA values were missing for entire days, so the NA values were replaced by 0 (since no average existed for those days).
 
+Now, since NA has been replaced by 0, the mean and median of data, both have reduced.
+Also, we notice that the mean has reduced greatly and the median has reduced only slightly. This confirms the popular theory that the median is a robust statistics, while the mean is not.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
@@ -119,7 +121,7 @@ activity$type<-ifelse(activity$weekday=="Saturday" | activity$weekday=="Sunday",
 
 There is a difference between the average number of steps during the different intervals for the weekdays as well as weekends. The graph below shows, that more steps occur on Weekends a bit later than the weekday times, which can be explained by people waking up late on weekends. 
 
-```{r, fig.height=8,fig.width=10}
+```{r comparing_weekday_weekend_time_series, fig.height=8,fig.width=10}
 
 activity_weekday<-subset(activity,activity$type=="Weekday")
 average_steps_per_interval_1<-tapply(activity_weekday$steps,activity_weekday$interval,mean,na.rm=TRUE)  #This will take the average of steps for all the intervals, averaged over different days.

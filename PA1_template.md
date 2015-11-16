@@ -21,7 +21,7 @@ activity$day_number<-difftime(activity$date_form,as.Date("2012-10-01",format="%Y
 
 ```r
 #Calculating point 1 and 2
-total_step_per_day<-tapply(activity$steps,activity$date,sum,na.rm=TRUE)
+total_step_per_day<-tapply(activity$steps,activity$date,sum)
 hist(total_step_per_day,xlab="Total Number of Steps",main="Histogram of Total number of Steps")
 ```
 
@@ -36,9 +36,9 @@ median_steps_per_days<-median(total_step_per_day,na.rm=TRUE)
 
 For point 3:
 
-The mean of total number of steps per day is 9354.
+The mean of total number of steps per day is 10766.
 
-The median of total number of steps per day is 10395.
+The median of total number of steps per day is 10765.
 
 
 ## What is the average daily activity pattern?
@@ -100,7 +100,7 @@ new_total_step_per_day<-tapply(activity_new$steps,activity_new$date,sum,na.rm=TR
 hist(new_total_step_per_day,xlab="Total Number of Steps",main="Histogram of Total number of Steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
+![](PA1_template_files/figure-html/New_histogram_replace_missing_values-1.png) 
 
 
 ```r
@@ -116,8 +116,10 @@ The mean of total number of steps per day is 9354.
 
 The median of total number of steps per day is 10395.
 
-The mean and median seem unchanged.
+We see that both, the mean and median have decreased now.This is because the NA values were replaced by the average steps for that day (in my convention). On noticing, we see that the NA values were missing for entire days, so the NA values were replaced by 0 (since no average existed for those days).
 
+Now, since NA has been replaced by 0, the mean and median of data, both have reduced.
+Also, we notice that the mean has reduced greatly and the median has reduced only slightly. This confirms the popular theory that the median is a robust statistics, while the mean is not.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
@@ -150,7 +152,7 @@ plot(as.numeric(names(average_steps_per_interval_1)),average_steps_per_interval_
 plot(as.numeric(names(average_steps_per_interval_2)),average_steps_per_interval_2,type="l",xlab="The 5-minute time Interval",ylab="Average number of steps taken",main="Weekend_Average daily activity pattern (Time-Series plot)")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+![](PA1_template_files/figure-html/comparing_weekday_weekend_time_series-1.png) 
 
 
 
